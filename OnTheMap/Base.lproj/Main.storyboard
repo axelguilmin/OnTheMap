@@ -40,7 +40,7 @@
                                             <constraint firstAttribute="height" constant="50" id="aH1-zO-WDE"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OfI-xc-laI" customClass="FormTextField" customModule="OnTheMap" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OfI-xc-laI" customClass="FormTextField" customModule="OnTheMap" customModuleProvider="target">
                                         <rect key="frame" x="9" y="122" width="302" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -58,7 +58,7 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="dnf-L5-V0Y"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ri5-yY-TFT" customClass="FormTextField" customModule="OnTheMap" customModuleProvider="target">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ri5-yY-TFT" customClass="FormTextField" customModule="OnTheMap" customModuleProvider="target">
                                         <rect key="frame" x="9" y="182" width="302" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -76,7 +76,7 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="OHL-ua-Rev"/>
                                         </connections>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Login to Udacity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bq-q4-9af">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Udacity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bq-q4-9af">
                                         <rect key="frame" x="9" y="90" width="302" height="22"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -85,7 +85,7 @@
                                             <rect key="frame" x="27" y="151" width="127" height="21"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-Zc-43t">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQN-Zc-43t">
                                         <rect key="frame" x="9" y="302" width="302" height="34"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                         <state key="normal" title="Don't have an account? Sign Up">
@@ -96,7 +96,7 @@
                                             <action selector="signUp" destination="BYZ-38-t0r" eventType="touchUpInside" id="hcI-fC-A8L"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-Jh-cuf">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-Jh-cuf">
                                         <rect key="frame" x="9" y="242" width="302" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -150,6 +150,7 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="OfI-xc-laI" id="UbT-0f-EhN"/>
+                        <outlet property="loginButton" destination="Pnb-Jh-cuf" id="z0a-uC-mT5"/>
                         <outlet property="passwordTextField" destination="ri5-yY-TFT" id="mBX-hz-1OF"/>
                         <segue destination="tNp-og-UZX" kind="presentation" identifier="showStudentLocation" id="LvO-9l-zud"/>
                     </connections>
@@ -561,7 +562,6 @@
                                 </state>
                                 <connections>
                                     <action selector="submit" destination="M69-ia-d9k" eventType="touchUpInside" id="6Bd-tb-cXk"/>
-                                    <action selector="submit:" destination="M69-ia-d9k" eventType="touchUpInside" id="11D-FC-NWa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -620,7 +620,7 @@
         <image name="Udacity" width="254" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="P4f-iu-UPa"/>
+        <segue reference="5hz-L0-EZz"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.91372549020000005" green="0.4823529412" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
 </document>

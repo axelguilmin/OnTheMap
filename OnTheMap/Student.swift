@@ -162,17 +162,11 @@ struct Student {
 			method:"users/" + self.uniqueKey,
 			param: nil,
 			succes:{(json:[String : AnyObject]) in
-				
-				if let user = json["user"] as? [String:AnyObject] {
-					let lastName = user["last_name"] as! String
-					let firstName = user["first_name"] as! String
-					let uniqueKey = self.uniqueKey
-					
-					DataController.singleton.user = Student([
-						"uniqueKey":uniqueKey,
-						"lastName":lastName,
-						"firstName":firstName
-						])
+				if let userJson = json["user"] as? [String:AnyObject] {
+					var userDict = self.dictionaryAspect()
+					userDict["lastName"] = userJson["last_name"] as! String
+					userDict["firstName"] = userJson["first_name"] as! String
+					DataController.singleton.user = Student(userDict)
 				}
 				else {
 					// Retry
