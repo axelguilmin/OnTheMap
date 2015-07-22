@@ -19,4 +19,8 @@ class ViewController: UIViewController {
 		let tapGestureRecognizer = UITapGestureRecognizer(target: view, action: Selector("endEditing:"))
 		view.addGestureRecognizer(tapGestureRecognizer)
 	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
 }

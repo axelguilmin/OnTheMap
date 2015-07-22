@@ -38,12 +38,12 @@ class SetLinkViewController : ViewController, UITextFieldDelegate {
 		self.dismissViewControllerAnimated(true, completion: nil)
 		self.presentingViewController!.dismissViewControllerAnimated(true, completion: nil)
 	}
-
+	
 	@IBAction func submit() {
 		if link.text.isValidURL() { // Check link validity
 			
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationSent:", name: Student.sendLocationSuccededNotification, object: nil)
-			NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationSendFailed:", name: Student.sendLocationFailedNotification, object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationSent:", name: Student.sendLocationSuccededNotification, object: nil)
+			NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationSendFailed:", name: Student.sendLocationFailedNotification, object: nil)
 			
 			var userDict = DataController.singleton.user.dictionaryAspect()
 			userDict["mediaURL"] = link.text
@@ -68,7 +68,7 @@ class SetLinkViewController : ViewController, UITextFieldDelegate {
 		self.presentingViewController!.dismissViewControllerAnimated(true, completion: nil)
 	}
 	
-	func notificationSendFailed(notification:NSNotification) {
+	func locationSendFailed(notification:NSNotification) {
 		dispatch_async(dispatch_get_main_queue(),{
 			var alert = UIAlertController(title: "", message: "The request timed out.\nPlease check your internet connexion and try again", preferredStyle: UIAlertControllerStyle.Alert)
 			alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
