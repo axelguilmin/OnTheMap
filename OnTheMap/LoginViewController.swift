@@ -15,6 +15,21 @@ class LoginViewController: ViewController, UITextFieldDelegate {
 	@IBOutlet var emailTextField: UITextField!
 	@IBOutlet var passwordTextField: UITextField!
 	@IBOutlet var loginButton: UIButton!
+	
+	// MARK: Layout
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSucceded:", name:Student.loginSuccededNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailed:", name:Student.loginFailedNotification, object: nil)
+	}
+	
+	override func viewDidDisappear(animated: Bool) {
+		super.viewDidDisappear(animated)
+		
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
 		
 	// MARK: Action
 	
@@ -22,8 +37,6 @@ class LoginViewController: ViewController, UITextFieldDelegate {
 		let email = emailTextField.text
 		let password = passwordTextField.text
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSucceded:", name:Student.loginSuccededNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailed:", name:Student.loginFailedNotification, object: nil)
 		Student.login(email: email, password: password)
 		
 		self.loginButton.enabled = false
@@ -61,12 +74,7 @@ class LoginViewController: ViewController, UITextFieldDelegate {
 	
 	func loginFailed(notification: NSNotification) {
 		self.loginButton.enabled = true
-		
-		dispatch_async(dispatch_get_main_queue(),{
-			var alert = UIAlertController(title: "", message: "The request timed out.\nPlease check your internet connexion and try again", preferredStyle: UIAlertControllerStyle.Alert)
-			alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-			self.presentViewController(alert, animated: true, completion: nil)
-		})
+		requestFailedNotification(notification)
 	}
 	
 	// MARK: UITextFieldDelegate

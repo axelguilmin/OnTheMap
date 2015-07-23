@@ -8,30 +8,29 @@
 
 import Foundation
 
-// TODO: Pass HTTP Response status code to closures
 class UdacityWebService {
 	
 	static let BASE_URL = "https://www.udacity.com/api/"
 
-	static func get(#method:String, param:[String:String]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("GET", method: method, param: param, succes: succes, failure: failure)
+	static func get(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("GET", method: method, param: param, success: success, failure: failure)
 	}
 
-	static func post(#method:String, param:[String:String]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("POST", method: method, param: param, succes: succes, failure: failure)
+	static func post(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("POST", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func put(#method:String, param:[String:String]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("PUT", method: method, param: param, succes: succes, failure: failure)
+	static func put(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("PUT", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func delete(#method:String, param:[String:String]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("DELETE", method: method, param: param, succes: succes, failure: failure)
+	static func delete(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("DELETE", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func request(httpMethod:String, method:String, param:[String:String]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
+	static func request(httpMethod:String, method:String, param:[String:AnyObject]?, success:(Int, [String : AnyObject]?) -> (), failure:() -> ()) {
 		let urlString = UdacityWebService.BASE_URL + method
-		println("↑ " + httpMethod + " " + urlString)
+		println("↑ \(httpMethod) \(urlString)")
 		
 		let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 		request.timeoutInterval = 2 //seconds
@@ -61,25 +60,17 @@ class UdacityWebService {
 		// Send request
 		let session = NSURLSession.sharedSession()
 		let task = session.dataTaskWithRequest(request) { data, response, error in
-			if error != nil {
-				println("↓ " + error.description)
+			if error != nil { // Network error
+				println("↓ \(error.description)")
 				failure()
 				return
 			}
-			else {
-				println("↓ " + (response as! NSHTTPURLResponse).statusCode.description + " " + response.URL!.description)
-			}
-		
+			
 			let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-//			println(NSString(data: newData, encoding: NSUTF8StringEncoding))
-			var parsingError: NSError? = nil
-			if let json = NSJSONSerialization.JSONObjectWithData(newData, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) as? [String : AnyObject] {
-				succes(json)
-			}
-			else {
-				println(parsingError?.description)
-				failure()
-			}
+			let json = NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments, error: nil) as? [String : AnyObject]
+			let statusCode = (response as! NSHTTPURLResponse).statusCode
+			println("↓ \(statusCode) \(response.URL!.description)")
+			success(statusCode, json)
 		}
 		task.resume()
 	}

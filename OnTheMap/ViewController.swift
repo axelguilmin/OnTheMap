@@ -20,9 +20,22 @@ class ViewController: UIViewController {
 		view.addGestureRecognizer(tapGestureRecognizer)
 	}
 	
-	override func viewWillDisappear(animated: Bool) {
-		super.viewWillDisappear(animated)
-		
+	deinit {
 		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
+	
+	// MARK: Network utils
+	
+	/// Default behavior to handle network and request errors
+	func requestFailedNotification(notification:NSNotification) {
+		let message = notification.userInfo!["message"] as? String
+		var title = notification.userInfo!["title"] as? String
+		if(title == nil) { title = "" } // Else the message would be displayed in bold
+		
+		dispatch_async(dispatch_get_main_queue(),{
+			var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+			alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+			self.presentViewController(alert, animated: true, completion: nil)
+		})
 	}
 }

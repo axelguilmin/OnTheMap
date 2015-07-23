@@ -21,12 +21,8 @@ class StudentLocationMapViewController: ViewController, MKMapViewDelegate {
 		super.viewDidLoad()
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadSucceded:", name:Student.loadLocationsSuccededNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadFailed:", name:Student.loadLocationsFailedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "requestFailedNotification:", name:Student.loadLocationsFailedNotification, object: nil)
 		Student.loadLocations()
-	}
-	
-	override func viewDidAppear(animated: Bool) {
-		super.viewDidAppear(animated)
 	}
 	
 	// MARK: Notification
@@ -54,14 +50,6 @@ class StudentLocationMapViewController: ViewController, MKMapViewDelegate {
 			self.mapView.removeAnnotations(self.mapView.annotations)
 			self.mapView.addAnnotations(annotations)
 		});
-	}
-	
-	func loadFailed(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue(),{
-			var alert = UIAlertController(title: "", message: "The request timed out.\nPlease check your internet connexion and try again", preferredStyle: UIAlertControllerStyle.Alert)
-			alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-			self.presentViewController(alert, animated: true, completion: nil)
-		})
 	}
 	
 	// MARK: Action

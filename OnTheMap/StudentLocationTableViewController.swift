@@ -14,7 +14,7 @@ class StudentLocationTableViewController : UITableViewController, UITableViewDat
 		super.viewDidLoad()
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadSucceded:", name:Student.loadLocationsSuccededNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadFailed:", name:Student.loadLocationsFailedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "requestFailedNotification:", name:Student.loadLocationsFailedNotification, object: nil)
 	}
 
 	// MARK: Notification
@@ -23,14 +23,6 @@ class StudentLocationTableViewController : UITableViewController, UITableViewDat
 		self.tableView.reloadData()
 	}
 
-	func loadFailed(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue(),{
-			var alert = UIAlertController(title: "", message: "The request timed out.\nPlease check your internet connexion and try again", preferredStyle: UIAlertControllerStyle.Alert)
-			alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-			self.presentViewController(alert, animated: true, completion: nil)
-		})
-	}
-	
 	// MARK: Action
 	
 	@IBAction func logout(sender: UIBarButtonItem) {

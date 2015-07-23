@@ -8,31 +8,30 @@
 
 import Foundation
 
-// TODO: Pass HTTP Response status code to closures
 class ParseWebService {
 	
 	static let BASE_URL = "https://api.parse.com/1/"
 	static let PARSE_APP_ID = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
 	static let API_KEY = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
 
-	static func get(#method:String, param:[String:AnyObject]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("GET", method: method, param: param, succes: succes, failure: failure)
+	static func get(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("GET", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func post(#method:String, param:[String:AnyObject]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("POST", method: method, param: param, succes: succes, failure: failure)
+	static func post(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("POST", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func put(#method:String, param:[String:AnyObject]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("PUT", method: method, param: param, succes: succes, failure: failure)
+	static func put(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("PUT", method: method, param: param, success: success, failure: failure)
 	}
 	
-	static func delete(#method:String, param:[String:AnyObject]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
-		request("DELETE", method: method, param: param, succes: succes, failure: failure)
+	static func delete(#method:String, param:[String:AnyObject]? = nil, success:(Int, [String : AnyObject]?) -> () = {_,_ in}, failure:() -> () = {}) {
+		request("DELETE", method: method, param: param, success: success, failure: failure)
 	}
 
 	
-	static func request(httpMethod:String, method:String, param:[String:AnyObject]?, succes:([String : AnyObject]) -> (), failure:() -> ()) {
+	static func request(httpMethod:String, method:String, param:[String:AnyObject]?, success:(Int, [String : AnyObject]?) -> (), failure:() -> ()) {
 		let urlString = ParseWebService.BASE_URL + method
 		println("↑ " + httpMethod + " " + urlString)
 		
@@ -52,20 +51,19 @@ class ParseWebService {
 			}
 		}
 		
+		// Send request
 		let session = NSURLSession.sharedSession()
 		let task = session.dataTaskWithRequest(request) { data, response, error in
-			if error != nil {
+			if error != nil { // Network error
 				println("↓ " + error.description)
 				failure()
 				return
 			}
-			else {
-				println("↓ " + (response as! NSHTTPURLResponse).statusCode.description + " " + response.URL!.description)
-			}
-//			println(NSString(data: data, encoding: NSUTF8StringEncoding))
-			if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as? [String : AnyObject] {
-				succes(json)
-			}
+			
+			let statusCode:Int = (response as! NSHTTPURLResponse).statusCode
+			let json = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: nil) as? [String : AnyObject]
+			println("↓ " + statusCode.description + " " + response.URL!.description)
+			success(statusCode, json)
 		}
 		task.resume()
 	}

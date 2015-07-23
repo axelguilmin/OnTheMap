@@ -53,6 +53,8 @@ struct Student {
 
 	// MARK: Parse API
 	
+	private static let networkErrorInfo = ["message":"The request timed out.\nPlease check your internet connexion and try again","title":"Network Error"]
+	
 	static let loadLocationsFailedNotification = "loadFailed"
 	static let loadLocationsSuccededNotification = "loadSucceded"
 	
@@ -60,8 +62,12 @@ struct Student {
 		// TODO: fetch more than the most recent 100 locations in a network-conscious manner.
 		ParseWebService.get(method: "classes/StudentLocation?limit=100",
 			param: nil,
-			succes: {(json:[String:AnyObject]) -> () in
-				if let results = json["results"] as? [[String:AnyObject]] {
+			success: {(status:Int, json:[String:AnyObject]?) -> () in
+				if(status != 200) { // Request worked but the server responded with an error
+					NSNotificationCenter.defaultCenter().postNotificationName(Student.loadLocationsFailedNotification, object: nil, userInfo: ["title":"Request Error ", "message":"Server responded with code \(status.description)"])
+				}
+				
+				if let results = json!["results"] as? [[String:AnyObject]] {
 					DataController.singleton.students = [Student]()
 					for result in results {
 						DataController.singleton.students.append(Student(result))
@@ -70,7 +76,7 @@ struct Student {
 				}
 			},
 			failure: {
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.loadLocationsFailedNotification, object: nil, userInfo: nil)
+				NSNotificationCenter.defaultCenter().postNotificationName(Student.loadLocationsFailedNotification, object: nil, userInfo: Student.networkErrorInfo)
 			}
 		)
 	}
@@ -94,24 +100,29 @@ struct Student {
 	private func createLocation() {
 		ParseWebService.post(method: "classes/StudentLocation",
 			param: self.dictionaryAspect(),
-			succes: {(json:[String : AnyObject]) -> () in
-				// TODO: Check HTTP Status code
+			success: {(status:Int, json:[String : AnyObject]?) -> () in
+				if(status > 299) { // Request worked but the server responded with an error
+					NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: ["title":"Server Error ", "message":"server responded with code \(status.description)"])
+				}
+				
 				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationSuccededNotification, object: nil, userInfo: json)
 			},
 			failure: {
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: nil)
+				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: Student.networkErrorInfo)
 		})
 	}
 	
 	private func updateLocation(objectId:String) {
 		ParseWebService.put(method: "classes/StudentLocation/" + objectId,
 			param: self.dictionaryAspect(),
-			succes: {(json:[String : AnyObject]) -> () in
-				// TODO: Check HTTP Status code
+			success: {(status:Int, json:[String : AnyObject]?) -> () in
+				if(status > 299) { // Request worked but the server responded with an error
+					NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: ["title":"Request Error ", "message":"server responded with code \(status.description)"])
+				}
 				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationSuccededNotification, object: nil, userInfo: json)
 			},
 			failure: {
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: nil)
+				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: Student.networkErrorInfo)
 		})
 	}
 	
@@ -124,8 +135,14 @@ struct Student {
 		UdacityWebService.post(
 			method:"session",
 			param: ["username":email, "password":password],
-			succes:{(json:[String : AnyObject]) in
-				let account = json["account"] as! [String:AnyObject]
+			success:{(status:Int, json:[String : AnyObject]?) in
+				if(status != 200) { // Request worked but the server responded with an error
+					let error = json!["error"] as! String
+					NSNotificationCenter.defaultCenter().postNotificationName(Student.loginFailedNotification, object: nil, userInfo: ["message":error, "title":"Login Error"])
+						return
+				}
+				
+				let account = json!["account"] as! [String:AnyObject]
 				let key = account["key"] as! String
 				var dict = ["uniqueKey":key]
 				
@@ -134,25 +151,13 @@ struct Student {
 				NSNotificationCenter.defaultCenter().postNotificationName(Student.loginSuccededNotification, object: nil, userInfo: json)
 			},
 			failure:{
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.loginFailedNotification, object: nil, userInfo: nil)
+				NSNotificationCenter.defaultCenter().postNotificationName(Student.loginFailedNotification, object: nil, userInfo: Student.networkErrorInfo)
 			}
 		)
 	}
 	
-	static let logoutSuccededNotification = "logoutSucceded"
-	static let logoutFailedNotification = "logoutFailed"
-	
 	func logout() {
-		UdacityWebService.delete(
-			method:"session",
-			param: nil,
-			succes:{(json:[String : AnyObject]) in
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.logoutSuccededNotification, object: nil, userInfo: json)
-			},
-			failure:{
-				NSNotificationCenter.defaultCenter().postNotificationName(Student.logoutFailedNotification, object: nil, userInfo: nil)
-			}
-		)
+		UdacityWebService.delete(method:"session")
 	}
 	
 	func getPublicData() {
@@ -160,9 +165,8 @@ struct Student {
 		
 		UdacityWebService.get(
 			method:"users/" + self.uniqueKey,
-			param: nil,
-			succes:{(json:[String : AnyObject]) in
-				if let userJson = json["user"] as? [String:AnyObject] {
+			success:{(status:Int, json:[String : AnyObject]?) in
+				if let userJson = json!["user"] as? [String:AnyObject] {
 					var userDict = self.dictionaryAspect()
 					userDict["lastName"] = userJson["last_name"] as! String
 					userDict["firstName"] = userJson["first_name"] as! String
