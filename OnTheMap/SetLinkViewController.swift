@@ -8,11 +8,11 @@
 
 import UIKit
 import MapKit
+import AddressBookUI
 
 class SetLinkViewController : ViewController, UITextFieldDelegate {
 	
 	var placemark:CLPlacemark!
-	var mapString:String!
 	
 	// MARK: Outlet
 	
@@ -56,7 +56,7 @@ class SetLinkViewController : ViewController, UITextFieldDelegate {
 			userDict["mediaURL"] = link.text
 			userDict["longitude"] = placemark.location.coordinate.longitude
 			userDict["latitude"] = placemark.location.coordinate.latitude
-			userDict["mapString"] = mapString
+			userDict["mapString"] = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false);
 			DataController.singleton.user = Student(userDict)
 			DataController.singleton.user.sendLocation()
 		}

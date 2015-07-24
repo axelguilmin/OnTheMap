@@ -14,13 +14,27 @@ class StudentLocationTableViewController : UITableViewController, UITableViewDat
 		super.viewDidLoad()
 		
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadSucceded:", name:Student.loadLocationsSuccededNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "requestFailedNotification:", name:Student.loadLocationsFailedNotification, object: nil)
+		// TODO: requestFailedNotification is only available for ViewController, not TableViewControllers
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadFailed:", name:Student.loadLocationsFailedNotification, object: nil)
 	}
-
+	
 	// MARK: Notification
 
 	func loadSucceded(notification: NSNotification) {
 		self.tableView.reloadData()
+	}
+	
+	func loadFailed(notification: NSNotification) {
+		if !self.isOnScreen { return }
+	
+		let message = "The request timed out.\nPlease check your internet connexion and try again"
+		var title = "Network Error"
+		
+		dispatch_async(dispatch_get_main_queue(),{
+			var alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+			alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+			self.presentViewController(alert, animated: true, completion: nil)
+		})
 	}
 
 	// MARK: Action

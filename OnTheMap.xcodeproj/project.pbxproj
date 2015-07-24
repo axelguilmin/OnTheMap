@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		772E69C21B6219B000DDB7C9 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772E69C11B6219B000DDB7C9 /* UIViewController.swift */; };
 		7738DA7F1B5E72D60097EAA4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7738DA7E1B5E72D60097EAA4 /* MapKit.framework */; };
 		7738DA811B5E76500097EAA4 /* StudentLocationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738DA801B5E76500097EAA4 /* StudentLocationMapViewController.swift */; };
 		7738DA831B5E77ED0097EAA4 /* ParseWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738DA821B5E77ED0097EAA4 /* ParseWebService.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		772E69C11B6219B000DDB7C9 /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		7738DA7E1B5E72D60097EAA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		7738DA801B5E76500097EAA4 /* StudentLocationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationMapViewController.swift; sourceTree = "<group>"; };
 		7738DA821B5E77ED0097EAA4 /* ParseWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseWebService.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				7738DA891B5EC68A0097EAA4 /* GCD.swift */,
 				7738DA8B1B5EC7F00097EAA4 /* Array.swift */,
 				77A4EB871B5FCB7300DEADF2 /* String.swift */,
+				772E69C11B6219B000DDB7C9 /* UIViewController.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				776685071B5D86800037FA6E /* LoginViewController.swift in Sources */,
 				77A4EB881B5FCB7300DEADF2 /* String.swift in Sources */,
 				7738DA811B5E76500097EAA4 /* StudentLocationMapViewController.swift in Sources */,
+				772E69C21B6219B000DDB7C9 /* UIViewController.swift in Sources */,
 				776684E41B5D81DC0037FA6E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

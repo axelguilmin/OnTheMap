@@ -103,8 +103,8 @@ struct Student {
 			success: {(status:Int, json:[String : AnyObject]?) -> () in
 				if(status > 299) { // Request worked but the server responded with an error
 					NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: ["title":"Server Error ", "message":"server responded with code \(status.description)"])
+					return
 				}
-				
 				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationSuccededNotification, object: nil, userInfo: json)
 			},
 			failure: {
@@ -117,7 +117,8 @@ struct Student {
 			param: self.dictionaryAspect(),
 			success: {(status:Int, json:[String : AnyObject]?) -> () in
 				if(status > 299) { // Request worked but the server responded with an error
-					NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: ["title":"Request Error ", "message":"server responded with code \(status.description)"])
+					NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationFailedNotification, object: nil, userInfo: ["title":"Request Error ", "message":"Server responded with code \(status.description)"])
+					return
 				}
 				NSNotificationCenter.defaultCenter().postNotificationName(Student.sendLocationSuccededNotification, object: nil, userInfo: json)
 			},

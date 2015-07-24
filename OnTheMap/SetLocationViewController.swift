@@ -12,7 +12,6 @@ import CoreLocation
 class SetLocationViewController : ViewController, UITextFieldDelegate  {
 
 	var placemark:CLPlacemark!
-	var searchString:String!
 	
 	// MARK: Outlet
 	
@@ -54,7 +53,6 @@ class SetLocationViewController : ViewController, UITextFieldDelegate  {
 		if segue.identifier == "showSetLink" {
 			let linkVC = segue.destinationViewController as! SetLinkViewController
 			linkVC.placemark = placemark
-			linkVC.mapString = searchString
 		}
 	}
 	

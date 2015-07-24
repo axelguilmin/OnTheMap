@@ -33,7 +33,6 @@ class ParseWebService {
 	
 	static func request(httpMethod:String, method:String, param:[String:AnyObject]?, success:(Int, [String : AnyObject]?) -> (), failure:() -> ()) {
 		let urlString = ParseWebService.BASE_URL + method
-		println("↑ " + httpMethod + " " + urlString)
 		
 		let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 		request.HTTPMethod = httpMethod
@@ -55,16 +54,17 @@ class ParseWebService {
 		let session = NSURLSession.sharedSession()
 		let task = session.dataTaskWithRequest(request) { data, response, error in
 			if error != nil { // Network error
-				println("↓ " + error.description)
+				println("↓ \(error.description)")
 				failure()
 				return
 			}
 			
 			let statusCode:Int = (response as! NSHTTPURLResponse).statusCode
 			let json = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: nil) as? [String : AnyObject]
-			println("↓ " + statusCode.description + " " + response.URL!.description)
+			println("↓ \(statusCode) \(response.URL!.description)")
 			success(statusCode, json)
 		}
+		println("↑ \(httpMethod) \(urlString)")
 		task.resume()
 	}
 }

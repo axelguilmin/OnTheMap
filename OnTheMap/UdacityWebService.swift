@@ -30,7 +30,6 @@ class UdacityWebService {
 	
 	static func request(httpMethod:String, method:String, param:[String:AnyObject]?, success:(Int, [String : AnyObject]?) -> (), failure:() -> ()) {
 		let urlString = UdacityWebService.BASE_URL + method
-		println("↑ \(httpMethod) \(urlString)")
 		
 		let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
 		request.timeoutInterval = 2 //seconds
@@ -72,6 +71,7 @@ class UdacityWebService {
 			println("↓ \(statusCode) \(response.URL!.description)")
 			success(statusCode, json)
 		}
+		println("↑ \(httpMethod) \(urlString)")
 		task.resume()
 	}
 }
