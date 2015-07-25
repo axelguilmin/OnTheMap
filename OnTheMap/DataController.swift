@@ -15,4 +15,10 @@ class DataController {
 	
 	var students = [Student]()
 	var user:Student!
+	
+	func sortStudents() {
+		DataController.singleton.students.sort({(a:Student, b:Student) in
+			return a.updatedAt.compare(b.updatedAt) == .OrderedDescending
+		})
+	}
 }

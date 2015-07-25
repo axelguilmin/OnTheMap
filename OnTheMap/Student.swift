@@ -17,6 +17,8 @@ struct Student {
 	let mediaURL:String!
 	let latitude:NSNumber!
 	let longitude:NSNumber!
+	let createdAt:NSDate!
+	let updatedAt:NSDate!
 	
 	var fullName:String {
 		return "\(firstName) \(lastName)"
@@ -33,20 +35,26 @@ struct Student {
 		mediaURL = info["mediaURL"] as? String
 		latitude = info["latitude"] as? NSNumber
 		longitude = info["longitude"] as? NSNumber
+		updatedAt = dateFromIsoString(info["updatedAt"] as? String)
+		createdAt = dateFromIsoString(info["createdAt"] as? String)
 	}
 	
 	// TODO: improve using reflexion ?
 	func dictionaryAspect() -> [String:AnyObject] {
 		var info = [String:AnyObject]()
 		
-		if(self.objectId != nil) { info["objectId"] = self.objectId }
-		if(self.uniqueKey != nil) { info["uniqueKey"] = self.uniqueKey }
-		if(self.firstName != nil) {info["firstName"] = self.firstName }
-		if(self.lastName != nil) {info["lastName"] = self.lastName }
-		if(self.mapString != nil) { info["mapString"] = self.mapString }
-		if(self.mediaURL != nil) { info["mediaURL"] = self.mediaURL }
-		if(self.latitude != nil) {info["latitude"] = self.latitude }
-		if(self.longitude != nil) {info["longitude"] = self.longitude }
+		if self.objectId != nil { info["objectId"] = self.objectId }
+		if self.uniqueKey != nil { info["uniqueKey"] = self.uniqueKey }
+		if self.firstName != nil { info["firstName"] = self.firstName }
+		if self.lastName != nil { info["lastName"] = self.lastName }
+		if self.mapString != nil { info["mapString"] = self.mapString }
+		if self.mediaURL != nil { info["mediaURL"] = self.mediaURL }
+		if self.latitude != nil { info["latitude"] = self.latitude }
+		if self.longitude != nil { info["longitude"] = self.longitude }
+		// TODO: should it be ["__type": "Date", "iso": self.createdAt!.isoString] ?
+		// See https://parse.com/questions/how-do-add-a-date-using-a-rest-post-request
+		if self.createdAt != nil { info["createdAt"] =  self.createdAt.isoString }
+		if self.updatedAt != nil { info["updatedAt"] = self.updatedAt.isoString }
 		
 		return info
 	}
@@ -72,6 +80,7 @@ struct Student {
 					for result in results {
 						DataController.singleton.students.append(Student(result))
 					}
+					DataController.singleton.sortStudents()
 					NSNotificationCenter.defaultCenter().postNotificationName(Student.loadLocationsSuccededNotification, object: nil, userInfo: json)
 				}
 			},

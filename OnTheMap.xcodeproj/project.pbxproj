@@ -15,6 +15,7 @@
 		7738DA871B5E7F850097EAA4 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738DA861B5E7F850097EAA4 /* DataController.swift */; };
 		7738DA8A1B5EC68A0097EAA4 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738DA891B5EC68A0097EAA4 /* GCD.swift */; };
 		7738DA8C1B5EC7F00097EAA4 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738DA8B1B5EC7F00097EAA4 /* Array.swift */; };
+		773A09E21B639322008FE4BF /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A09E11B639322008FE4BF /* NSDate.swift */; };
 		773AD7901B5F0BE900B4D9AB /* StudentLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773AD78F1B5F0BE900B4D9AB /* StudentLocationTableViewController.swift */; };
 		776684E41B5D81DC0037FA6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776684E31B5D81DC0037FA6E /* AppDelegate.swift */; };
 		776684E91B5D81DC0037FA6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 776684E71B5D81DC0037FA6E /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		7738DA861B5E7F850097EAA4 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		7738DA891B5EC68A0097EAA4 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
 		7738DA8B1B5EC7F00097EAA4 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		773A09E11B639322008FE4BF /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
 		773AD78F1B5F0BE900B4D9AB /* StudentLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationTableViewController.swift; sourceTree = "<group>"; };
 		776684DE1B5D81DC0037FA6E /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		776684E21B5D81DC0037FA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				7738DA8B1B5EC7F00097EAA4 /* Array.swift */,
 				77A4EB871B5FCB7300DEADF2 /* String.swift */,
 				772E69C11B6219B000DDB7C9 /* UIViewController.swift */,
+				773A09E11B639322008FE4BF /* NSDate.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				776685071B5D86800037FA6E /* LoginViewController.swift in Sources */,
 				77A4EB881B5FCB7300DEADF2 /* String.swift in Sources */,
 				7738DA811B5E76500097EAA4 /* StudentLocationMapViewController.swift in Sources */,
+				773A09E21B639322008FE4BF /* NSDate.swift in Sources */,
 				772E69C21B6219B000DDB7C9 /* UIViewController.swift in Sources */,
 				776684E41B5D81DC0037FA6E /* AppDelegate.swift in Sources */,
 			);
